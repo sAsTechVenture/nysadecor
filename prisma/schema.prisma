@@ -1,0 +1,114 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Product {
+  id           String          @id @default(cuid())
+  name         String
+  price        Decimal         @db.Decimal(10, 2)
+  image        String
+  category     ProductCategory
+  description  String
+  isBestSeller Boolean         @default(false)
+  isComingSoon Boolean         @default(false)
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+  cartItems    CartItem[]
+  enquiryItems EnquiryItem[]
+
+  @@map("products")
+}
+
+model Project {
+  id            String          @id @default(cuid())
+  title         String
+  description   String
+  image         String
+  gallery       String[]
+  category      ProjectCategory
+  completedDate DateTime
+  client        String
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+
+  @@map("projects")
+}
+
+model CartItem {
+  id        String   @id @default(cuid())
+  quantity  Int      @default(1)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  productId String
+  sessionId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@map("cart_items")
+}
+
+model ContactForm {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  phone     String
+  message   String
+  createdAt DateTime @default(now())
+
+  @@map("contact_forms")
+}
+
+model EnquiryForm {
+  id        String        @id @default(cuid())
+  name      String
+  email     String
+  phone     String
+  address   String
+  message   String
+  createdAt DateTime      @default(now())
+  items     EnquiryItem[]
+
+  @@map("enquiry_forms")
+}
+
+model EnquiryItem {
+  id            String      @id @default(cuid())
+  quantity      Int         @default(1)
+  createdAt     DateTime    @default(now())
+  enquiryFormId String
+  productId     String
+  enquiryForm   EnquiryForm @relation(fields: [enquiryFormId], references: [id], onDelete: Cascade)
+  product       Product     @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@map("enquiry_items")
+}
+
+enum ProductCategory {
+  VERTICAL_BLINDS
+  HORIZONTAL_BLINDS
+  ROLLER_BLINDS
+  VENETIAN_BLINDS
+  ROMAN_BLINDS
+  PLEATED_BLINDS
+  HONEYCOMB_BLINDS
+  MOTORIZED_BLINDS
+  OUTDOOR_BLINDS
+  CUSTOM_BLINDS
+}
+
+enum ProjectCategory {
+  RESIDENTIAL
+  COMMERCIAL
+  OFFICE
+  HOTEL
+  RESTAURANT
+  RETAIL
+  HEALTHCARE
+  EDUCATION
+  OTHER
+}
