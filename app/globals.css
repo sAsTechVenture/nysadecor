@@ -288,3 +288,13 @@
         border-box;
   }
 }
+@font-face {
+  font-family: 'Samarkan';
+  src: url('/fonts/SAMAN___.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.logo-font {
+  font-family: 'Samarkan', cursive;
+}
