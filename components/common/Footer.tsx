@@ -42,7 +42,7 @@ export const Footer = () => {
           {/* Company Info & Social Links */}
           <div className="space-y-4">
             <div>
-              <h3 className="text-2xl font-bold mb-3">BlindCraft</h3>
+              <h3 className=" logo-font text-2xl font-bold mb-3">Nysadecor </h3>
               <p className="text-gray-200 text-sm leading-relaxed">
                 Premium window blinds and treatments for modern homes and offices. 
                 Quality craftsmanship since 2010.

@@ -38,8 +38,8 @@ export const Header = () => {
                 <div className="w-4 h-4 bg-white rounded-sm"></div>
               </div>
               <Link href="/" className="text-2xl font-bold">
-                <span className="text-gradient-primary">Blind</span>
-                <span className="text-gray-800">Craft</span>
+                <span className="logo-font text-gradient-primary">nysa</span>
+                <span className="logo-font text-gray-800">decor</span>
               </Link>
             </div>
 
