@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { Facebook, Instagram, Twitter, Linkedin, Mail, Phone, MapPin } from 'lucide-react';
+import { colors } from '@/config/theme';
 
 export const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -34,7 +35,7 @@ export const Footer = () => {
   ];
 
   return (
-    <footer className="bg-gradient-primary text-white">
+    <footer className="text-white" style={{ background: colors.secondary }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Top Section - Four Columns */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">

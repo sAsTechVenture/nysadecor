@@ -26,7 +26,23 @@ export async function GET(request: NextRequest) {
     }
     
     if (category) {
-      where.category = category;
+      // Convert category string to ProjectCategory enum value
+      const categoryMap: { [key: string]: string } = {
+        'Commercial': 'COMMERCIAL',
+        'Residential': 'RESIDENTIAL',
+        'Hospitality': 'HOTEL',
+        'Office': 'OFFICE',
+        'Restaurant': 'RESTAURANT',
+        'Retail': 'RETAIL',
+        'Healthcare': 'HEALTHCARE',
+        'Education': 'EDUCATION',
+        'Other': 'OTHER'
+      };
+      
+      const enumCategory = categoryMap[category];
+      if (enumCategory) {
+        where.category = enumCategory as any;
+      }
     }
 
     const [projects, total] = await Promise.all([
@@ -41,8 +57,26 @@ export async function GET(request: NextRequest) {
 
     const totalPages = Math.ceil(total / limit);
 
+    // Convert enum values back to display-friendly names
+    const categoryDisplayMap: { [key: string]: string } = {
+      'COMMERCIAL': 'Commercial',
+      'RESIDENTIAL': 'Residential',
+      'OFFICE': 'Office',
+      'HOTEL': 'Hotel',
+      'RESTAURANT': 'Restaurant',
+      'RETAIL': 'Retail',
+      'HEALTHCARE': 'Healthcare',
+      'EDUCATION': 'Education',
+      'OTHER': 'Other'
+    };
+
+    const projectsWithDisplayCategory = projects.map(project => ({
+      ...project,
+      category: categoryDisplayMap[project.category] || project.category
+    }));
+
     return NextResponse.json({
-      data: projects,
+      data: projectsWithDisplayCategory,
       total,
       totalPages,
       page,
