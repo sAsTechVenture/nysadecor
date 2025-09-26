@@ -120,3 +120,171 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Custom gradient utilities for primary red theme */
+@layer utilities {
+  /* New red-to-indigo gradient for hero sections */
+  .bg-gradient-hero {
+    background: linear-gradient(
+      135deg,
+      #eb152e 0%,
+      #4f46e5 100%
+    );
+  }
+
+  /* Subtle gray-to-white for dividers */
+  .bg-gradient-divider {
+    background: linear-gradient(
+      180deg,
+      #f3f4f6 0%,
+      #ffffff 100%
+    );
+  }
+
+  .bg-gradient-primary {
+    background: linear-gradient(
+      135deg,
+      #eb152e 0%,
+      #48468a 100%
+    );
+  }
+
+  .bg-gradient-primary-light {
+    background: linear-gradient(
+      135deg,
+      rgba(235, 21, 46, 0.8) 0%,
+      rgba(72, 70, 138, 0.6) 100%
+    );
+  }
+
+  .bg-gradient-primary-subtle {
+    background: linear-gradient(
+      135deg,
+      rgba(235, 21, 46, 0.1) 0%,
+      rgba(72, 70, 138, 0.05) 100%
+    );
+  }
+
+  .text-gradient-primary {
+    background: linear-gradient(
+      135deg,
+      #eb152e 0%,
+      #48468a 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .text-gradient-hero {
+    background: linear-gradient(
+      135deg,
+      #eb152e 0%,
+      #4f46e5 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .border-gradient-primary {
+    border: 2px solid transparent;
+    background:
+      linear-gradient(white, white) padding-box,
+      linear-gradient(135deg, #eb152e 0%, #48468a 100%)
+        border-box;
+  }
+
+  .border-gradient-hero {
+    border: 3px solid transparent;
+    background:
+      linear-gradient(white, white) padding-box,
+      linear-gradient(135deg, #eb152e 0%, #4f46e5 100%)
+        border-box;
+  }
+}
+
+/* Dark mode gradient overrides */
+@layer utilities {
+  .dark .bg-gradient-hero {
+    background: linear-gradient(
+      180deg,
+      #ff2e4a 17.37%,
+      rgba(107, 105, 179, 0.3) 100%
+    );
+  }
+
+  .dark .bg-gradient-primary {
+    background: linear-gradient(
+      135deg,
+      #ff2e4a 0%,
+      #6b69b3 100%
+    );
+  }
+
+  .dark .bg-gradient-primary-light {
+    background: linear-gradient(
+      135deg,
+      rgba(255, 46, 74, 0.7) 0%,
+      rgba(107, 105, 179, 0.5) 100%
+    );
+  }
+
+  .dark .bg-gradient-primary-subtle {
+    background: linear-gradient(
+      135deg,
+      rgba(255, 46, 74, 0.08) 0%,
+      rgba(107, 105, 179, 0.04) 100%
+    );
+  }
+
+  .dark .text-gradient-primary {
+    background: linear-gradient(
+      135deg,
+      #ff2e4a 0%,
+      #6b69b3 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .dark .text-gradient-hero {
+    background: linear-gradient(
+      180deg,
+      #ff2e4a 17.37%,
+      #6b69b3 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .dark .border-gradient-primary {
+    border: 2px solid transparent;
+    background:
+      linear-gradient(
+          oklch(0.125 0.015 15),
+          oklch(0.125 0.015 15)
+        )
+        padding-box,
+      linear-gradient(135deg, #ff2e4a 0%, #6b69b3 100%)
+        border-box;
+  }
+
+  .dark .border-gradient-hero {
+    border: 3px solid transparent;
+    background:
+      linear-gradient(
+          oklch(0.125 0.015 15),
+          oklch(0.125 0.015 15)
+        )
+        padding-box,
+      linear-gradient(
+          180deg,
+          #ff2e4a 17.37%,
+          rgba(107, 105, 179, 0.4) 100%
+        )
+        border-box;
+  }
+}
