@@ -8,6 +8,7 @@ import { Menu, X, ShoppingCart } from 'lucide-react';
 export const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
+  const [isScrolled, setIsScrolled] = useState(false);
   const pathname = usePathname();
 
   const toggleMobileMenu = () => {
@@ -19,32 +20,47 @@ export const Header = () => {
     setIsMobileMenuOpen(false);
   }, [pathname]);
 
+  // Handle scroll detection
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      setIsScrolled(scrollTop > 0);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   const navigationItems = [
     { name: 'Home', href: '/', isActive: pathname === '/' },
     { name: 'Products', href: '/products', isActive: pathname === '/products' },
-    { name: 'Projects', href: '/projects', isActive: pathname === '/projects' },
+    { name: 'Projects', href: '/projects', isActive: pathname === '/projects' || pathname.startsWith('/projects/') },
     { name: 'About', href: '/about', isActive: pathname === '/about' },
     { name: 'Contact', href: '/contact', isActive: pathname === '/contact' },
   ];
 
   return (
     <>
-      <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
+      <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        isScrolled 
+          ? 'bg-white/60 backdrop-blur-xl border-b border-gray-200/30 shadow-lg' 
+          : 'bg-white border-b border-gray-200'
+      }`}>
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16 w-full min-w-0">
             {/* Logo with gradient icon */}
-            <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 bg-gradient-primary rounded-lg flex items-center justify-center">
+            <div className="flex items-center space-x-3 flex-shrink-0">
+              <div className="w-8 h-8 bg-gradient-primary rounded-lg flex items-center justify-center flex-shrink-0">
                 <div className="w-4 h-4 bg-white rounded-sm"></div>
               </div>
-              <Link href="/" className="text-2xl font-bold">
+              <Link href="/" className="text-2xl font-bold flex-shrink-0">
                 <span className="logo-font text-gradient-primary">nysa</span>
                 <span className="logo-font text-gray-800">decor</span>
               </Link>
             </div>
 
             {/* Desktop Navigation */}
-            <nav className="hidden md:flex space-x-8">
+            <nav className="hidden md:flex space-x-8 flex-shrink-0">
               {navigationItems.map((item) => (
                 <Link
                   key={item.name}
@@ -66,16 +82,16 @@ export const Header = () => {
             </nav>
 
             {/* Right side icons */}
-            <div className="flex items-center space-x-3">
+            <div className="flex items-center space-x-3 flex-shrink-0">
               {/* Shopping Cart */}
-              <button className="w-10 h-10 border border-gray-300 rounded-lg flex items-center justify-center hover:bg-gray-50 transition-colors">
+              <button className="w-10 h-10 border border-gray-300 rounded-lg flex items-center justify-center hover:bg-gray-50 transition-colors flex-shrink-0">
                 <ShoppingCart className="w-5 h-5 text-gray-600" />
               </button>
 
               {/* Mobile menu button */}
               <button
                 onClick={toggleMobileMenu}
-                className="md:hidden w-10 h-10 bg-gradient-primary rounded-lg flex items-center justify-center hover:opacity-90 transition-opacity"
+                className="md:hidden w-10 h-10 bg-gradient-primary rounded-lg flex items-center justify-center hover:opacity-90 transition-opacity flex-shrink-0"
                 aria-expanded="false"
               >
                 <span className="sr-only">Open main menu</span>
@@ -89,21 +105,30 @@ export const Header = () => {
           </div>
         </div>
       </header>
+      
+      {/* Spacer to account for fixed header height */}
+      <div className="h-16"></div>
 
       {/* Mobile Navigation Menu - Slides in from right */}
-      <div className={`fixed inset-0 z-50 md:hidden transition-opacity duration-300 ${
+      <div className={`fixed inset-0 z-40 md:hidden transition-opacity duration-300 ${
         isMobileMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
       }`}>
         {/* Backdrop */}
         <div 
-          className="absolute inset-0 bg-transparent"
+          className={`absolute inset-0 transition-all duration-300 ${
+            isScrolled ? 'bg-black/30 backdrop-blur-md' : 'bg-transparent'
+          }`}
           onClick={() => setIsMobileMenuOpen(false)}
         ></div>
         
         {/* Menu Panel */}
-        <div className={`absolute right-0 top-0 h-full w-80 bg-white shadow-xl transform transition-transform duration-300 ease-in-out ${
+        <div className={`absolute right-0 top-0 h-full w-80 shadow-xl transform transition-all duration-300 ease-in-out ${
+          isScrolled 
+            ? 'bg-white/70 backdrop-blur-xl border-l border-gray-200/30' 
+            : 'bg-white'
+        } ${
           isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
-        }`}>
+        }`} style={{ paddingTop: '64px' }}>
           <div className="p-6">
             {/* Close button */}
             <div className="flex justify-end mb-6">

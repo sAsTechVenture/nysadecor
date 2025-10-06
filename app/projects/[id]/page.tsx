@@ -27,56 +27,50 @@ export default function ProjectDetailPage() {
   const [project, setProject] = useState<Project | null>(null);
   const [relatedProjects, setRelatedProjects] = useState<RelatedProject[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
 
-  // Sample data for demonstration - replace with actual API calls
-  const sampleProject: Project = {
-    id: '1',
-    title: 'Modern Office Complex',
-    description: 'Complete window treatment solution for a 5-story office building with custom roller blinds and automated controls.',
-    category: ProjectCategory.COMMERCIAL,
-    image: '/api/placeholder/800/600',
-    gallery: [
-      '/api/placeholder/800/600',
-      '/api/placeholder/800/600',
-      '/api/placeholder/800/600'
-    ],
-    client: 'TechCorp Industries',
-    completedDate: '2024-03-15',
-    createdAt: '2024-03-01',
-    updatedAt: '2024-03-15'
-  };
-
-  const sampleRelatedProjects: RelatedProject[] = [
-    {
-      id: '2',
-      title: 'Restaurant Interior Design',
-      description: 'Custom vertical blinds with UV protection for a chain of restaurants.',
-      image: '/api/placeholder/400/300',
-      category: ProjectCategory.RESTAURANT
-    }
-  ];
-
   useEffect(() => {
-    // Simulate API call
     const fetchProject = async () => {
+      if (!params.id) {
+        setError('Project ID is required');
+        setLoading(false);
+        return;
+      }
+
       try {
         setLoading(true);
-        // Replace with actual API call
-        // const projectData = await api.projects.getById(params.id as string);
-        setProject(sampleProject);
-        setRelatedProjects(sampleRelatedProjects);
+        setError(null);
+        
+        // Fetch the main project
+        const projectData = await api.projects.get(params.id as string);
+        setProject(projectData);
+
+        // Fetch related projects (same category, excluding current project)
+        const relatedData = await api.projects.list(1, 4, undefined, projectData.category);
+        const filteredRelated = relatedData.data
+          .filter((p: any) => p.id !== params.id)
+          .slice(0, 3)
+          .map((p: any) => ({
+            id: p.id,
+            title: p.title,
+            description: p.description,
+            image: p.image,
+            category: p.category
+          }));
+        setRelatedProjects(filteredRelated);
+
       } catch (error) {
         console.error('Error fetching project:', error);
-        toast.error('Failed to load project details');
+        const errorMessage = error instanceof Error ? error.message : 'Failed to load project details';
+        setError(errorMessage);
+        toast.error(errorMessage);
       } finally {
         setLoading(false);
       }
     };
 
-    if (params.id) {
-      fetchProject();
-    }
+    fetchProject();
   }, [params.id]);
 
   if (loading) {
@@ -99,13 +93,43 @@ export default function ProjectDetailPage() {
     );
   }
 
+  if (error) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold text-gray-900 mb-4">
+            {error.includes('404') || error.includes('not found') ? 'Project Not Found' : 'Error Loading Project'}
+          </h1>
+          <p className="text-gray-600 mb-8">
+            {error.includes('404') || error.includes('not found') 
+              ? 'The project you\'re looking for doesn\'t exist.' 
+              : error
+            }
+          </p>
+          <Button 
+            variant="outline" 
+            onClick={() => router.push('/projects')} 
+            className="border-2 border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-gray-400"
+          >
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back to Projects
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
   if (!project) {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-gray-900 mb-4">Project Not Found</h1>
           <p className="text-gray-600 mb-8">The project you're looking for doesn't exist.</p>
-          <Button onClick={() => router.push('/projects')}>
+          <Button 
+            variant="outline" 
+            onClick={() => router.push('/projects')} 
+            className="border-2 border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-gray-400"
+          >
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to Projects
           </Button>
@@ -168,9 +192,9 @@ export default function ProjectDetailPage() {
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 lg:gap-6">
             {/* Main Image */}
             <div className="lg:col-span-3 order-1">
-              <div className="relative aspect-[4/3] rounded-lg overflow-hidden bg-gray-100 shadow-sm">
+              <div className="relative h-[60vh] sm:h-[70vh] lg:h-[80vh] rounded-lg overflow-hidden bg-gray-100 shadow-sm">
                 <Image
-                  src={project.gallery[selectedImageIndex] || project.image}
+                  src={project.gallery?.[selectedImageIndex] || project.image || '/api/placeholder/800/600'}
                   alt={project.title}
                   fill
                   className="object-cover"
@@ -179,26 +203,28 @@ export default function ProjectDetailPage() {
             </div>
 
             {/* Thumbnail Images */}
-            <div className="lg:col-span-1 space-y-3 lg:space-y-4 order-2 lg:order-2">
-              {project.gallery.map((image, index) => (
-                <button
-                  key={index}
-                  onClick={() => setSelectedImageIndex(index)}
-                  className={`relative aspect-[4/3] w-full rounded-lg overflow-hidden transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 touch-manipulation ${
-                    selectedImageIndex === index
-                      ? 'ring-2 ring-red-500 ring-offset-2'
-                      : 'hover:opacity-80 hover:scale-[1.02] active:scale-95'
-                  }`}
-                >
-                  <Image
-                    src={image}
-                    alt={`${project.title} - Image ${index + 1}`}
-                    fill
-                    className="object-cover"
-                  />
-                </button>
-              ))}
-            </div>
+            {project.gallery && project.gallery.length > 1 && (
+              <div className="lg:col-span-1 h-[60vh] sm:h-[70vh] lg:h-[80vh] order-2 lg:order-2 flex flex-col gap-3 lg:gap-4">
+                {project.gallery.map((image, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setSelectedImageIndex(index)}
+                    className={`relative flex-1 w-full rounded-lg overflow-hidden transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 touch-manipulation ${
+                      selectedImageIndex === index
+                        ? 'ring-2 ring-red-500 ring-offset-2'
+                        : 'hover:opacity-80 hover:scale-[1.02] active:scale-95'
+                    }`}
+                  >
+                    <Image
+                      src={image}
+                      alt={`${project.title} - Image ${index + 1}`}
+                      fill
+                      className="object-cover"
+                    />
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
         </div>
 
@@ -245,16 +271,20 @@ export default function ProjectDetailPage() {
               <CardContent className="space-y-3">
                 <div className="flex justify-between items-center py-1">
                   <span className="font-medium text-gray-900 text-sm sm:text-base">Category:</span>
-                  <span className="text-gray-700 text-sm sm:text-base">{project.category}</span>
+                  <span className="text-gray-700 text-sm sm:text-base">{project.category || 'N/A'}</span>
                 </div>
-                <div className="flex justify-between items-center py-1">
-                  <span className="font-medium text-gray-900 text-sm sm:text-base">Client:</span>
-                  <span className="text-gray-700 text-sm sm:text-base truncate ml-2">{project.client}</span>
-                </div>
-                <div className="flex justify-between items-center py-1">
-                  <span className="font-medium text-gray-900 text-sm sm:text-base">Completed:</span>
-                  <span className="text-gray-700 text-sm sm:text-base">{formatDate(project.completedDate)}</span>
-                </div>
+                {project.client && (
+                  <div className="flex justify-between items-center py-1">
+                    <span className="font-medium text-gray-900 text-sm sm:text-base">Client:</span>
+                    <span className="text-gray-700 text-sm sm:text-base truncate ml-2">{project.client}</span>
+                  </div>
+                )}
+                {project.completedDate && (
+                  <div className="flex justify-between items-center py-1">
+                    <span className="font-medium text-gray-900 text-sm sm:text-base">Completed:</span>
+                    <span className="text-gray-700 text-sm sm:text-base">{formatDate(project.completedDate)}</span>
+                  </div>
+                )}
                 <div className="flex justify-between items-center py-1">
                   <span className="font-medium text-gray-900 text-sm sm:text-base">Duration:</span>
                   <span className="text-gray-700 text-sm sm:text-base">2-3 weeks</span>
@@ -274,11 +304,18 @@ export default function ProjectDetailPage() {
                   Contact us to discuss your project requirements and get a custom quote.
                 </p>
                 <div className="space-y-3">
-                  <Button className="w-full bg-red-600 hover:bg-red-700 text-white h-10">
+                  <Button 
+                    className="w-full bg-red-600 hover:bg-red-700 text-white h-10"
+                    onClick={() => router.push('/contact')}
+                  >
                     <FileText className="w-4 h-4 mr-2" />
                     Get Quote
                   </Button>
-                  <Button variant="outline" className="w-full border-gray-300 text-gray-700 hover:bg-gray-50 h-10">
+                  <Button 
+                    variant="outline" 
+                    className="w-full border-gray-300 text-gray-700 hover:bg-gray-50 h-10"
+                    onClick={() => router.push('/products')}
+                  >
                     View Products
                   </Button>
                 </div>
