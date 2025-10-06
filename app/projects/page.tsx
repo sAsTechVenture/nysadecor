@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { ProjectCard } from '@/components/projects';
+import { HeroSection, ProjectInMindSection } from '@/components/common';
 import { Filter, ChevronDown, X, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
@@ -91,40 +92,11 @@ export default function ProjectsPage() {
   return (
     <div className="min-h-screen bg-white">      
       {/* Hero Section */}
-      <section className="bg-gradient-hero py-20 lg:py-32">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            {/* Main Title */}
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
-              Our Projects
-            </h1>
-            
-            {/* Description */}
-            <p className="text-lg md:text-xl text-white max-w-4xl mx-auto mb-12 leading-relaxed">
-              Take a look at some of our completed projects showcasing our expertise in commercial and residential window treatments.
-            </p>
-            
-            {/* Statistics Badges */}
-            <div className="flex flex-col sm:flex-row justify-center items-center gap-6 sm:gap-8">
-              <div className="bg-white/20 backdrop-blur-sm rounded-lg px-8 py-6 border border-white/30 text-center min-w-[200px]">
-                <div className="text-3xl font-bold text-white mb-1">500+</div>
-                <div className="text-white font-semibold text-sm mb-1">Projects Completed</div>
-                <div className="text-white/80 text-xs">Across residential and commercial</div>
-              </div>
-              <div className="bg-white/20 backdrop-blur-sm rounded-lg px-8 py-6 border border-white/30 text-center min-w-[200px]">
-                <div className="text-3xl font-bold text-white mb-1">15+</div>
-                <div className="text-white font-semibold text-sm mb-1">Years Experience</div>
-                <div className="text-white/80 text-xs">Serving the community since 2000</div>
-              </div>
-              <div className="bg-white/20 backdrop-blur-sm rounded-lg px-8 py-6 border border-white/30 text-center min-w-[200px]">
-                <div className="text-3xl font-bold text-white mb-1">98%</div>
-                <div className="text-white font-semibold text-sm mb-1">Client Satisfaction</div>
-                <div className="text-white/80 text-xs">Consistently rated excellent</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <HeroSection
+        title="Our Projects"
+        paragraph="Take a look at some of our completed projects showcasing our expertise in commercial and residential window treatments."
+        badges={["500+ Projects", "15+ Years", "98% Satisfaction"]}
+      />
 
       {/* Featured Projects Section */}
       <section className="py-16 lg:py-24">
@@ -256,29 +228,17 @@ export default function ProjectsPage() {
       </section>
 
       {/* Call-to-Action Section */}
-      <section className="py-16 lg:py-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-gradient-primary rounded-2xl py-20 lg:py-32">
-            <div className="px-8 lg:px-12">
-              <div className="text-center">
-                <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
-                  Have a Project in Mind?
-                </h2>
-                <p className="text-lg md:text-xl text-white max-w-3xl mx-auto mb-8 leading-relaxed">
-                  Let us help you transform your space with custom window treatments. From concept to completion, we're here for you.
-                </p>
-                <Button
-                  size="lg"
-                  className="bg-white text-red-600 hover:bg-gray-50 px-8 py-4 text-lg font-semibold group"
-                >
-                  Start Your Project
-                  <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform duration-200" />
-                </Button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <ProjectInMindSection
+        title="Have a Project in Mind?"
+        description="Let us help you transform your space with custom window treatments. From concept to completion, we're here for you."
+        buttons={[
+          {
+            text: "Start Your Project",
+            href: "/contact",
+            variant: "default",
+          },
+        ]}
+      />
     </div>
   );
 }

@@ -10,6 +10,7 @@ import { Label } from '../../components/ui/label';
 import { Textarea } from '../../components/ui/textarea';
 import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '../../components/ui/accordion';
+import { HeroSection } from '../../components/common';
 import { Send, Calendar, CheckCircle } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -30,34 +31,11 @@ export default function Contact() {
   return (
     <div className="min-h-screen bg-white text-foreground">
       {/* Hero Section */}
-      <section
-        className="relative py-20 text-white"
-        style={{
-          background: `linear-gradient(135deg, ${colors.primary}, ${colors.secondary})`,
-        }}
-      >
-        <div className="relative max-w-7xl mx-auto px-4 text-center">
-          <h1 className="text-5xl md:text-6xl font-bold mb-6">Get In Touch</h1>
-          <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto opacity-90">
-            Ready to transform your space? Get in touch for a free consultation and custom quote tailored to your needs.
-          </p>
-           <div className="flex flex-wrap justify-center gap-3 slide-up-animation stagger-2">
-                      {heroBadges.map((badge, i) => (
-                        <Badge
-                          key={i}
-                          variant="secondary"
-                          style={{
-                            backgroundColor: "rgba(255,255,255,0.2)",
-                            color: "#fff",
-                            borderColor: "rgba(255,255,255,0.3)",
-                          }}
-                        >
-                          {badge}
-                        </Badge>
-                      ))}
-                    </div>
-        </div>
-      </section>
+      <HeroSection
+        title="Get In Touch"
+        paragraph="Ready to transform your space? Get in touch for a free consultation and custom quote tailored to your needs."
+        badges={heroBadges}
+      />
 
       {/* Contact Info Cards */}
       <div className="max-w-7xl mx-auto px-4 py-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { HeroSection, ProjectInMindSection } from "@/components/common";
 
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
@@ -15,39 +16,11 @@ export default function AboutPage() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section
-        className="relative py-20 text-white overflow-hidden"
-        style={{
-          background: `linear-gradient(135deg, ${colors.primary}, ${colors.secondary})`,
-        }}
-      >
-        
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-5xl md:text-6xl font-bold mb-6 slide-up-animation">
-            About BlindCraft
-          </h1>
-          <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto opacity-90 slide-up-animation stagger-1">
-            For over 15 years, we've been transforming spaces with premium
-            window treatments, combining traditional craftsmanship with modern
-            design innovation.
-          </p>
-          <div className="flex flex-wrap justify-center gap-3 slide-up-animation stagger-2">
-            {heroBadges.map((badge, i) => (
-              <Badge
-                key={i}
-                variant="secondary"
-                style={{
-                  backgroundColor: "rgba(255,255,255,0.2)",
-                  color: "#fff",
-                  borderColor: "rgba(255,255,255,0.3)",
-                }}
-              >
-                {badge}
-              </Badge>
-            ))}
-          </div>
-        </div>
-      </section>
+      <HeroSection
+        title="About BlindCraft"
+        paragraph="For over 15 years, we've been transforming spaces with premium window treatments, combining traditional craftsmanship with modern design innovation."
+        badges={heroBadges}
+      />
 
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
@@ -245,52 +218,22 @@ export default function AboutPage() {
         </div>
 
         {/* CTA */}
-        <Card
-          className="text-white overflow-hidden"
-          style={{
-            background: `linear-gradient(135deg, ${colors.primary}, ${colors.secondary})`,
-          }}
-        >
-          <CardContent className="p-12 text-center relative">
-            
-            <div className="relative">
-              <h2 className="text-4xl font-bold mb-4">{cta.title}</h2>
-              <p className="text-xl mb-8 max-w-3xl mx-auto opacity-90">
-                {cta.description}
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Link href="/contact">
-                  <Button
-                    size="lg"
-                    className="min-w-[200px] flex items-center justify-center gap-2 transition-transform duration-300 hover:scale-105 hover:bg-gradient-to-r hover:from-primary hover:to-secondary"
-                    style={{
-                      background: "#fff",
-                      color: colors.primary,
-                    }}
-                  >
-                    <span>Get Free Consultation</span>
-                    <ArrowRight className="h-5 w-5" />
-                  </Button>
-                </Link>
-                <Link href="/projects">
-                  <Button
-                    variant="outline"
-                    size="lg"
-                    className="min-w-[200px] flex items-center justify-center gap-2 border transition-transform duration-300 hover:scale-105 hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:text-white"
-                    style={{
-                      borderColor: "rgba(255,255,255,0.3)",
-                      background: "#fff",
-                      color: colors.primary,
-                    }}
-                  >
-                    <span>View Our Work</span>
-                    <ArrowRight className="h-5 w-5" />
-                  </Button>
-                </Link>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+        <ProjectInMindSection
+          title={cta.title}
+          description={cta.description}
+          buttons={[
+            {
+              text: "Get Free Consultation",
+              href: "/contact",
+              variant: "default",
+            },
+            {
+              text: "View Our Work",
+              href: "/projects",
+              variant: "outline",
+            },
+          ]}
+        />
       </div>
     </div>
   );
