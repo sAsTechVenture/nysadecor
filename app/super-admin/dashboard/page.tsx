@@ -17,6 +17,7 @@ import {
 	EnquiriesManagement,
 	ProductManagement,
 	ProjectManagement,
+	BlogsManagement,
 } from '@/components/admin';
 import { ToastProvider } from '@/components/common/ToastProvider';
 
@@ -60,6 +61,12 @@ export default function AdminDashboard() {
 			case 'enquiries':
 				return (
 					<EnquiriesManagement
+						isLoading={isLoading}
+					/>
+				);
+			case 'blogs':
+				return (
+					<BlogsManagement
 						isLoading={isLoading}
 					/>
 				);

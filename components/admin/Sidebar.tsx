@@ -4,6 +4,7 @@ import {
 	X,
 	Package,
 	FolderOpen,
+	Book,
 } from 'lucide-react';
 import { colors } from '@/config/theme';
 import { Button } from '@/components/ui/button';
@@ -39,6 +40,11 @@ export const Sidebar: React.FC<{
 			id: 'enquiries',
 			label: 'Enquiries',
 			icon: MessageSquare,
+		},
+		{
+			id: 'blogs',
+			label: 'Blogs',
+			icon: Book,
 		},
 	];
 

@@ -88,6 +88,41 @@ model EnquiryItem {
   @@map("enquiry_items")
 }
 
+model Blog {
+  id          String        @id @default(uuid())
+  title       String
+  slug        String        @unique
+  category    BlogCategoryEnum
+  date        DateTime      @default(now())
+  author      String
+  excerpt     String
+  content     String?
+  image       String?
+  isPublished Boolean       @default(false)
+  isFeatured  Boolean       @default(false)
+  viewCount   Int           @default(0)
+  tags        String[]      @default([])
+  metaTitle   String?
+  metaDescription String?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  @@map("blog")
+}
+
+enum BlogCategoryEnum {
+  WINDOW_TREATMENTS
+  INTERIOR_DESIGN
+  HOME_DECOR
+  DIY_TIPS
+  MAINTENANCE
+  TRENDS
+  PRODUCT_SPOTLIGHT
+  CASE_STUDIES
+  NEWS
+  LIFESTYLE
+}
+
 enum ProductCategory {
   VERTICAL_BLINDS
   HORIZONTAL_BLINDS

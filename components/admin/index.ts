@@ -3,6 +3,7 @@ import { DashboardOverview } from './DashboardOverview';
 import { ProductManagement } from './ProductManagement';
 import { ProjectManagement } from './ProjectManagement';
 import { EnquiriesManagement } from './EnquiryManagement';
+import { BlogsManagement } from './BlogsManagement';
 
 export {
 	Sidebar,
@@ -10,4 +11,5 @@ export {
 	ProductManagement,
 	ProjectManagement,
 	EnquiriesManagement,
+	BlogsManagement,
 };

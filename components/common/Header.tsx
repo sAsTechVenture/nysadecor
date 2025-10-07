@@ -35,6 +35,7 @@ export const Header = () => {
     { name: 'Home', href: '/', isActive: pathname === '/' },
     { name: 'Products', href: '/products', isActive: pathname === '/products' },
     { name: 'Projects', href: '/projects', isActive: pathname === '/projects' || pathname.startsWith('/projects/') },
+    { name: 'Blog', href: '/blog', isActive: pathname === '/blog' || pathname.startsWith('/blog/') },
     { name: 'About', href: '/about', isActive: pathname === '/about' },
     { name: 'Contact', href: '/contact', isActive: pathname === '/contact' },
   ];
