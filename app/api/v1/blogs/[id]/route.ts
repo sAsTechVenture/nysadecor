@@ -4,10 +4,10 @@ import { prisma } from '@/utils/prisma';
 // GET /api/v1/blogs/[id] - Get a single blog by ID
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params;
+    const { id } = await params;
 
     const blog = await prisma.blog.findUnique({
       where: { id },
@@ -39,10 +39,10 @@ export async function GET(
 // PUT /api/v1/blogs/[id] - Update a blog
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params;
+    const { id } = await params;
     
     // Handle both JSON and FormData
     let body;
@@ -156,10 +156,10 @@ export async function PUT(
 // DELETE /api/v1/blogs/[id] - Delete a blog
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params;
+    const { id } = await params;
 
     // Check if blog exists
     const existingBlog = await prisma.blog.findUnique({

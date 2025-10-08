@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -16,7 +17,6 @@ import {
 	DialogContent,
 	DialogHeader,
 	DialogTitle,
-	DialogTrigger,
 } from '@/components/ui/dialog';
 import { Product, ProductCategory } from '@/types';
 import { colors } from '@/config/theme';
@@ -200,10 +200,11 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 						<div className="space-y-4">
 							{imagePreview && (
 								<div className="relative w-full h-48 border rounded-lg overflow-hidden">
-									<img
+									<Image
 										src={imagePreview}
 										alt="Product preview"
-										className="w-full h-full object-cover"
+										fill
+										className="object-cover"
 									/>
 									<Button
 										type="button"

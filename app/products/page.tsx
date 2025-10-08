@@ -64,7 +64,7 @@ const ProductsPage = () => {
 
   useEffect(() => {
     fetchProducts(1, selectedCategory, searchTerm);
-  }, []);
+  }, [selectedCategory, searchTerm]);
 
   const handleCategoryChange = (category: string) => {
     setSelectedCategory(category);

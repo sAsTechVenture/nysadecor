@@ -1,8 +1,8 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { prisma } from '@/utils/prisma';
 
 // GET /api/v1/home - Get all data needed for homepage
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     // Fetch best seller products
     const bestSellers = await prisma.product.findMany({

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import Image from 'next/image';
 import {
 	Plus,
 	Search,
 	Edit,
 	Trash2,
-	Eye,
 	Calendar,
 } from 'lucide-react';
 import { colors } from '@/config/theme';
@@ -265,11 +265,12 @@ export const ProjectManagement: React.FC<{
 								{projects.map(project => (
 									<TableRow key={project.id}>
 										<TableCell>
-											<div className="w-16 h-16 rounded-lg overflow-hidden">
-												<img
+											<div className="relative w-16 h-16 rounded-lg overflow-hidden">
+												<Image
 													src={project.image}
 													alt={project.title}
-													className="w-full h-full object-cover"
+													fill
+													className="object-cover"
 												/>
 											</div>
 										</TableCell>

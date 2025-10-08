@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -139,7 +140,7 @@ export const ProjectForm: React.FC<ProjectFormProps> = ({
 		}
 
 		// Add gallery files
-		galleryFiles.forEach((file, index) => {
+		galleryFiles.forEach((file) => {
 			data.append(`gallery`, file);
 		});
 
@@ -236,10 +237,11 @@ export const ProjectForm: React.FC<ProjectFormProps> = ({
 						<div className="space-y-4">
 							{imagePreview && (
 								<div className="relative w-full h-48 border rounded-lg overflow-hidden">
-									<img
+									<Image
 										src={imagePreview}
 										alt="Project preview"
-										className="w-full h-full object-cover"
+										fill
+										className="object-cover"
 									/>
 									<Button
 										type="button"
@@ -287,10 +289,11 @@ export const ProjectForm: React.FC<ProjectFormProps> = ({
 								<div className="grid grid-cols-2 md:grid-cols-3 gap-4">
 									{galleryPreviews.map((preview, index) => (
 										<div key={index} className="relative w-full h-32 border rounded-lg overflow-hidden">
-											<img
+											<Image
 												src={preview}
 												alt={`Gallery ${index + 1}`}
-												className="w-full h-full object-cover"
+												fill
+												className="object-cover"
 											/>
 											<Button
 												type="button"

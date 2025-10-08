@@ -1,7 +1,6 @@
 'use client';
 
 import { Toaster } from 'react-hot-toast';
-import { colors } from '@/config/theme';
 
 export function ToastProvider() {
 	return (

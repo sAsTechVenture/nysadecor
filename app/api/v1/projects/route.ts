@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/utils/prisma';
 import { uploadImage } from '@/utils/upload';
 import { validateAdminAuth } from '@/utils/auth';
+import { ProjectCategory } from '@prisma/client';
 
 // GET /api/v1/projects - List all projects with pagination, search and category filter
 export async function GET(request: NextRequest) {
@@ -15,7 +16,7 @@ export async function GET(request: NextRequest) {
     const skip = (page - 1) * limit;
 
     // Build where clause for search and category
-    const where: any = {};
+    const where: Record<string, unknown> = {};
     
     if (search) {
       where.OR = [
@@ -41,7 +42,7 @@ export async function GET(request: NextRequest) {
       
       const enumCategory = categoryMap[category];
       if (enumCategory) {
-        where.category = enumCategory as any;
+        where.category = enumCategory;
       }
     }
 
@@ -138,7 +139,7 @@ export async function POST(request: NextRequest) {
       data: {
         title,
         description,
-        category: category as any,
+        category: category as ProjectCategory,
         completedDate: new Date(completedDate),
         client,
         image: '', // Temporary empty string

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import Image from 'next/image';
 import {
 	Plus,
 	Search,
 	Edit,
 	Trash2,
-	Eye,
 	Star,
 	Clock,
 } from 'lucide-react';
@@ -284,11 +284,12 @@ export const ProductManagement: React.FC<{
 								{products.map(product => (
 									<TableRow key={product.id}>
 										<TableCell>
-											<div className="w-16 h-16 rounded-lg overflow-hidden">
-												<img
+											<div className="relative w-16 h-16 rounded-lg overflow-hidden">
+												<Image
 													src={product.image}
 													alt={product.name}
-													className="w-full h-full object-cover"
+													fill
+													className="object-cover"
 												/>
 											</div>
 										</TableCell>

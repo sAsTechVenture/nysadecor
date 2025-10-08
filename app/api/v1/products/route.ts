@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/utils/prisma';
 import { uploadImage } from '@/utils/upload';
 import { validateAdminAuth } from '@/utils/auth';
+import { ProductCategory } from '@prisma/client';
 
 // GET /api/v1/products - List all products with pagination, search and category filter
 export async function GET(request: NextRequest) {
@@ -15,7 +16,7 @@ export async function GET(request: NextRequest) {
     const skip = (page - 1) * limit;
 
     // Build where clause for search and category
-    const where: any = {};
+    const where: Record<string, unknown> = {};
     
     if (search) {
       where.OR = [
@@ -94,7 +95,7 @@ export async function POST(request: NextRequest) {
         name,
         price,
         description,
-        category: category as any,
+        category: category as ProductCategory,
         image: '', // Temporary empty string
         isBestSeller,
         isComingSoon,
