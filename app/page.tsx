@@ -3,7 +3,8 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ArrowRight, Shield, Truck, Users, Award, Star, ShoppingCart } from "lucide-react";
+import { ArrowRight, Shield, Truck, Users, Award, Star } from "lucide-react";
+import { ProductCard } from "@/components/products";
 import { useHomeData } from "@/hooks/useHomeData";
 import { 
   HeroSkeleton, 
@@ -14,6 +15,7 @@ import {
   ComingSoonCardsSkeleton 
 } from "@/components/common/LoadingSkeletons";
 import Image from "next/image";
+import toast from "react-hot-toast";
 
 export default function Home() {
   const { data, loading, error } = useHomeData();
@@ -133,6 +135,7 @@ export default function Home() {
         </div>
       </section>
 
+
       {/* Why Choose Section */}
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -209,45 +212,13 @@ export default function Home() {
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {data?.bestSellers?.map((product) => (
-              <Card key={product.id} className="group hover:shadow-xl transition-shadow">
-                <div className="relative">
-                  {product.image ? (
-        <Image
-                      src={product.image}
-                      alt={product.name}
-                      width={400}
-                      height={300}
-                      className="w-full h-64 object-cover rounded-t-lg"
-                    />
-                  ) : (
-                    <div className="w-full h-64 bg-gray-200 rounded-t-lg flex items-center justify-center">
-                      <div className="text-center text-gray-500">
-                        <div className="w-16 h-16 mx-auto mb-2 bg-gray-300 rounded-full flex items-center justify-center">
-                          <span className="text-2xl">🪟</span>
-                        </div>
-                        <p className="text-sm">{product.name}</p>
-                      </div>
-                    </div>
-                  )}
-                  <Badge className="absolute top-4 left-4" style={{ backgroundColor: '#eb152e' }}>
-                    Best Seller
-                  </Badge>
-                </div>
-                <CardContent className="p-6">
-                  <h3 className="text-xl font-semibold mb-2">{product.name}</h3>
-                  <p className="text-gray-600 mb-2">{product.category.replace('_', ' ')}</p>
-                  <p className="text-gray-700 mb-4">{product.description}</p>
-                  <div className="flex items-center justify-between">
-                    <span className="text-2xl font-bold text-gray-900">${product.price}</span>
-                    <Button style={{ backgroundColor: '#eb152e' }} className="hover:opacity-90">
-                      <ShoppingCart className="h-4 w-4 mr-2" />
-                      Add to Cart
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
+              <ProductCard
+                key={product.id}
+                product={product}
+                onAddToCart={(product) => toast.success(`${product.name} added to cart!`)}
+              />
             ))}
           </div>
           
@@ -272,7 +243,7 @@ export default function Home() {
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {data?.featuredProjects?.map((project) => (
               <Card key={project.id} className="group hover:shadow-xl transition-shadow cursor-pointer">
                 <div className="relative overflow-hidden">
@@ -330,45 +301,13 @@ export default function Home() {
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {data?.comingSoon?.map((product) => (
-              <Card key={product.id} className="group hover:shadow-xl transition-shadow">
-                <div className="relative">
-                  {product.image ? (
-                    <Image
-                      src={product.image}
-                      alt={product.name}
-                      width={600}
-                      height={400}
-                      className="w-full h-64 object-cover rounded-t-lg"
-                    />
-                  ) : (
-                    <div className="w-full h-64 bg-gray-200 rounded-t-lg flex items-center justify-center">
-                      <div className="text-center text-gray-500">
-                        <div className="w-16 h-16 mx-auto mb-2 bg-gray-300 rounded-full flex items-center justify-center">
-                          <span className="text-2xl">🪟</span>
-                        </div>
-                        <p className="text-sm">{product.name}</p>
-                      </div>
-                    </div>
-                  )}
-                  <Badge className="absolute top-4 left-4" style={{ backgroundColor: '#48468a' }}>
-                    Coming Soon
-                  </Badge>
-                </div>
-                <CardContent className="p-6">
-                  <h3 className="text-2xl font-semibold mb-2">{product.name}</h3>
-                  <p className="text-gray-600 mb-2">{product.category.replace('_', ' ')}</p>
-                  <p className="text-gray-700 mb-4">{product.description}</p>
-                  <div className="flex items-center justify-between">
-                    <span className="text-2xl font-bold text-gray-900">${product.price}</span>
-                    <Button style={{ backgroundColor: '#eb152e' }} className="hover:opacity-90">
-                      <ShoppingCart className="h-4 w-4 mr-2" />
-                      Coming Soon
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
+              <ProductCard
+                key={product.id}
+                product={product}
+                onAddToCart={(product) => toast('This product is coming soon!', { icon: 'ℹ️' })}
+              />
             ))}
           </div>
         </div>
@@ -386,7 +325,7 @@ export default function Home() {
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <Card className="p-6 hover:shadow-lg transition-shadow">
               <CardContent className="p-0">
                 <div className="flex mb-4">

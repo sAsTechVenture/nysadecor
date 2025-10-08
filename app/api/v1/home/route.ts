@@ -34,12 +34,26 @@ export async function GET(request: NextRequest) {
       orderBy: { createdAt: 'desc' },
     });
 
-    return NextResponse.json({
-      bestSellers,
-      comingSoon,
-      featuredProjects,
+    // Serialize the data to ensure proper JSON formatting
+    const serializedData = {
+      bestSellers: bestSellers.map(product => ({
+        ...product,
+        price: Number(product.price),
+        category: product.category as string,
+      })),
+      comingSoon: comingSoon.map(product => ({
+        ...product,
+        price: Number(product.price),
+        category: product.category as string,
+      })),
+      featuredProjects: featuredProjects.map(project => ({
+        ...project,
+        category: project.category as string,
+      })),
       featuredBlogs,
-    });
+    };
+
+    return NextResponse.json(serializedData);
   } catch (error) {
     console.error('Error fetching home data:', error);
     return NextResponse.json(

@@ -1,17 +1,5 @@
 import { useState, useEffect } from 'react';
-
-interface Product {
-  id: string;
-  name: string;
-  price: number;
-  image: string;
-  category: string;
-  description: string;
-  isBestSeller: boolean;
-  isComingSoon: boolean;
-  createdAt: string;
-  updatedAt: string;
-}
+import { Product, ProductCategory } from '@/types';
 
 interface Project {
   id: string;
@@ -46,6 +34,19 @@ interface Blog {
   updatedAt: string;
 }
 
+interface ApiProduct {
+  id: string;
+  name: string;
+  price: number;
+  image: string;
+  category: string;
+  description: string;
+  isBestSeller: boolean;
+  isComingSoon: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
 interface HomeData {
   bestSellers: Product[];
   comingSoon: Product[];
@@ -69,7 +70,21 @@ export const useHomeData = () => {
         }
         
         const homeData = await response.json();
-        setData(homeData);
+        
+        // Transform the data to ensure proper typing
+        const transformedData: HomeData = {
+          ...homeData,
+          bestSellers: homeData.bestSellers?.map((product: ApiProduct) => ({
+            ...product,
+            category: product.category as ProductCategory
+          })) || [],
+          comingSoon: homeData.comingSoon?.map((product: ApiProduct) => ({
+            ...product,
+            category: product.category as ProductCategory
+          })) || []
+        };
+        
+        setData(transformedData);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'An error occurred');
       } finally {

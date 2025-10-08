@@ -298,3 +298,51 @@
 .logo-font {
   font-family: 'Samarkan', cursive;
 }
+
+/* Flash Effect for Product Cards */
+.flash-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.flash-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(72, 70, 138, 0.9) 0%,
+    rgba(107, 105, 179, 0.9) 100%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flash-text {
+  color: white;
+  font-weight: 600;
+  font-size: 1.25rem;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out 0.1s;
+  z-index: 20;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.flash-container:hover .flash-overlay {
+  opacity: 1;
+}
+
+.flash-container:hover .flash-text {
+  opacity: 1;
+}
