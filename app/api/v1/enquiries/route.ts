@@ -78,7 +78,7 @@ export async function POST(request: NextRequest) {
         address,
         message,
         items: {
-          create: items?.map((item: any) => ({
+          create: items?.map((item: { quantity?: number; productId: string }) => ({
             quantity: item.quantity || 1,
             productId: item.productId,
           })) || [],

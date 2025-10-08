@@ -2,15 +2,17 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/utils/prisma';
 import { uploadImage, deleteImage } from '@/utils/upload';
 import { validateAdminAuth } from '@/utils/auth';
+import { ProjectCategory } from '@prisma/client';
 
 // GET /api/v1/projects/[id] - Get single project
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const project = await prisma.project.findUnique({
-      where: { id: params.id },
+      where: { id },
     });
 
     if (!project) {
@@ -33,14 +35,15 @@ export async function GET(
 // PUT /api/v1/projects/[id] - Update project (service role only)
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // Check for admin authentication
     await validateAdminAuth();
 
+    const { id } = await params;
     const project = await prisma.project.findUnique({
-      where: { id: params.id },
+      where: { id },
     });
 
     if (!project) {
@@ -88,7 +91,7 @@ export async function PUT(
       }
 
       // Upload new main image
-      const { publicUrl } = await uploadImage(image, 'projects', params.id);
+      const { publicUrl } = await uploadImage(image, 'projects', id);
       imageUrl = publicUrl;
     }
 
@@ -111,18 +114,18 @@ export async function PUT(
       // Upload new gallery images
       const newGalleryUrls: string[] = [];
       for (const file of galleryFiles) {
-        const { publicUrl } = await uploadImage(file, 'projects', params.id);
+        const { publicUrl } = await uploadImage(file, 'projects', id);
         newGalleryUrls.push(publicUrl);
       }
       galleryUrls = newGalleryUrls;
     }
 
     const updatedProject = await prisma.project.update({
-      where: { id: params.id },
+      where: { id },
       data: {
         title,
         description,
-        category: category as any,
+        category: category as ProjectCategory,
         completedDate: new Date(completedDate),
         client,
         image: imageUrl,
@@ -143,14 +146,15 @@ export async function PUT(
 // DELETE /api/v1/projects/[id] - Delete project (service role only)
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // Check for admin authentication
     await validateAdminAuth();
 
+    const { id } = await params;
     const project = await prisma.project.findUnique({
-      where: { id: params.id },
+      where: { id },
     });
 
     if (!project) {
@@ -173,7 +177,7 @@ export async function DELETE(
     }
 
     await prisma.project.delete({
-      where: { id: params.id },
+      where: { id },
     });
 
     return NextResponse.json({ message: 'Project deleted successfully' });

@@ -144,7 +144,7 @@ export default function Home() {
               Why Choose BlindCraft?
             </h2>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-              We're committed to delivering exceptional quality and service that exceeds your expectations.
+              We&apos;re committed to delivering exceptional quality and service that exceeds your expectations.
             </p>
           </div>
           
@@ -217,7 +217,7 @@ export default function Home() {
               <ProductCard
                 key={product.id}
                 product={product}
-                onAddToCart={(product) => toast.success(`${product.name} added to cart!`)}
+                onAddToCart={() => toast.success('Product added to cart!')}
               />
             ))}
           </div>
@@ -306,7 +306,7 @@ export default function Home() {
               <ProductCard
                 key={product.id}
                 product={product}
-                onAddToCart={(product) => toast('This product is coming soon!', { icon: 'ℹ️' })}
+                onAddToCart={() => toast('This product is coming soon!', { icon: 'ℹ️' })}
               />
             ))}
           </div>
@@ -334,7 +334,7 @@ export default function Home() {
                   ))}
                 </div>
                 <p className="text-gray-700 mb-4">
-                  "Absolutely stunning blinds! The quality exceeded my expectations and the installation was flawless."
+                  &ldquo;Absolutely stunning blinds! The quality exceeded my expectations and the installation was flawless.&rdquo;
                 </p>
                 <div>
                   <p className="font-semibold text-gray-900">Sarah Johnson</p>
@@ -351,7 +351,7 @@ export default function Home() {
                   ))}
                 </div>
                 <p className="text-gray-700 mb-4">
-                  "I recommend BlindCraft to all my clients. Their custom solutions are unmatched in the industry."
+                  &ldquo;I recommend BlindCraft to all my clients. Their custom solutions are unmatched in the industry.&rdquo;
                 </p>
                 <div>
                   <p className="font-semibold text-gray-900">Michael Chen</p>
@@ -368,7 +368,7 @@ export default function Home() {
                   ))}
                 </div>
                 <p className="text-gray-700 mb-4">
-                  "Professional service from start to finish. The team was knowledgeable and efficient throughout."
+                  &ldquo;Professional service from start to finish. The team was knowledgeable and efficient throughout.&rdquo;
                 </p>
                 <div>
                   <p className="font-semibold text-gray-900">Emma Williams</p>

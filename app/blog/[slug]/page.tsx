@@ -10,7 +10,6 @@ import { Button } from '@/components/ui/button';
 import { ArrowLeft, Calendar, User, Eye, Share2, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { colors } from '@/config/theme';
 
 interface Blog {
   id: string;

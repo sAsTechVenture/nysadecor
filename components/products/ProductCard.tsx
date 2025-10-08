@@ -13,14 +13,12 @@ import toast from 'react-hot-toast';
 interface ProductCardProps {
   product: Product;
   onAddToCart?: (product: Product) => void;
-  onViewDetails?: (product: Product) => void;
   className?: string;
 }
 
 export const ProductCard: React.FC<ProductCardProps> = ({
   product,
   onAddToCart,
-  onViewDetails,
   className = "",
 }) => {
   const router = useRouter();
@@ -35,10 +33,6 @@ export const ProductCard: React.FC<ProductCardProps> = ({
     toast.success(`${product.name} added to cart`);
   };
 
-  const handleViewDetails = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    router.push(`/products/${product.id}`);
-  };
 
   const handleCardClick = () => {
     router.push(`/products/${product.id}`);

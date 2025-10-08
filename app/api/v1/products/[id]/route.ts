@@ -2,15 +2,17 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/utils/prisma';
 import { uploadImage, deleteImage } from '@/utils/upload';
 import { validateAdminAuth } from '@/utils/auth';
+import { ProductCategory } from '@prisma/client';
 
 // GET /api/v1/products/[id] - Get single product
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const product = await prisma.product.findUnique({
-      where: { id: params.id },
+      where: { id },
     });
 
     if (!product) {
@@ -33,14 +35,15 @@ export async function GET(
 // PUT /api/v1/products/[id] - Update product (service role only)
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // Check for admin authentication
     await validateAdminAuth();
 
+    const { id } = await params;
     const product = await prisma.product.findUnique({
-      where: { id: params.id },
+      where: { id },
     });
 
     if (!product) {
@@ -86,17 +89,17 @@ export async function PUT(
       }
 
       // Upload new image
-      const { publicUrl } = await uploadImage(image, 'products', params.id);
+      const { publicUrl } = await uploadImage(image, 'products', id);
       imageUrl = publicUrl;
     }
 
     const updatedProduct = await prisma.product.update({
-      where: { id: params.id },
+      where: { id },
       data: {
         name,
         price,
         description,
-        category: category as any,
+        category: category as ProductCategory,
         image: imageUrl,
         isBestSeller,
         isComingSoon,
@@ -116,14 +119,15 @@ export async function PUT(
 // DELETE /api/v1/products/[id] - Delete product (service role only)
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // Check for admin authentication
     await validateAdminAuth();
 
+    const { id } = await params;
     const product = await prisma.product.findUnique({
-      where: { id: params.id },
+      where: { id },
     });
 
     if (!product) {
@@ -140,7 +144,7 @@ export async function DELETE(
     }
 
     await prisma.product.delete({
-      where: { id: params.id },
+      where: { id },
     });
 
     return NextResponse.json({ message: 'Product deleted successfully' });
@@ -156,14 +160,15 @@ export async function DELETE(
 // PATCH /api/v1/products/[id] - Toggle product status (service role only)
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // Check for admin authentication
     await validateAdminAuth();
 
+    const { id } = await params;
     const product = await prisma.product.findUnique({
-      where: { id: params.id },
+      where: { id },
     });
 
     if (!product) {
@@ -177,7 +182,7 @@ export async function PATCH(
     const { isBestSeller, isComingSoon } = body;
 
     const updatedProduct = await prisma.product.update({
-      where: { id: params.id },
+      where: { id },
       data: {
         ...(isBestSeller !== undefined && { isBestSeller }),
         ...(isComingSoon !== undefined && { isComingSoon }),

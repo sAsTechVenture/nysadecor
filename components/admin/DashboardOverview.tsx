@@ -74,8 +74,8 @@ export const DashboardOverview: React.FC<{
 				const products = Array.isArray(productsRes?.data) ? productsRes.data : [];
 				const projects = Array.isArray(projectsRes?.data) ? projectsRes.data : [];
 				
-				const bestSellers = products.filter((p: any) => p.isBestSeller).length;
-				const comingSoon = products.filter((p: any) => p.isComingSoon).length;
+				const bestSellers = products.filter((p: { isBestSeller: boolean }) => p.isBestSeller).length;
+				const comingSoon = products.filter((p: { isComingSoon: boolean }) => p.isComingSoon).length;
 				
 				setStats({
 					enquiries: enquiries.length,

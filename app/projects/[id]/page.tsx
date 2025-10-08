@@ -4,13 +4,12 @@ import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowLeft, Calendar, User, FileText, ArrowRight } from 'lucide-react';
+import { ArrowLeft, Calendar, User, FileText } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { api } from '@/utils/apiClient';
 import toast from 'react-hot-toast';
-import { ProjectCategory } from '@/types';
 import { Project } from '@/types';
 
 interface RelatedProject {
@@ -49,9 +48,9 @@ export default function ProjectDetailPage() {
         // Fetch related projects (same category, excluding current project)
         const relatedData = await api.projects.list(1, 4, undefined, projectData.category);
         const filteredRelated = relatedData.data
-          .filter((p: any) => p.id !== params.id)
+          .filter((p: { id: string }) => p.id !== params.id)
           .slice(0, 3)
-          .map((p: any) => ({
+          .map((p: { id: string; title: string; description: string; image: string; category: string }) => ({
             id: p.id,
             title: p.title,
             description: p.description,
@@ -124,7 +123,7 @@ export default function ProjectDetailPage() {
       <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-gray-900 mb-4">Project Not Found</h1>
-          <p className="text-gray-600 mb-8">The project you're looking for doesn't exist.</p>
+          <p className="text-gray-600 mb-8">The project you&apos;re looking for doesn&apos;t exist.</p>
           <Button 
             variant="outline" 
             onClick={() => router.push('/projects')} 
@@ -241,7 +240,7 @@ export default function ProjectDetailPage() {
               <div>
                 <h3 className="font-semibold text-gray-900 mb-2 text-sm sm:text-base">Challenge</h3>
                 <p className="text-gray-700 text-sm leading-relaxed">
-                  The project required careful planning and execution to meet the client's specific requirements for both functionality and aesthetic appeal. We needed to ensure that the window treatments would provide optimal light control while maintaining the modern, professional look of the office space.
+                  The project required careful planning and execution to meet the client&apos;s specific requirements for both functionality and aesthetic appeal. We needed to ensure that the window treatments would provide optimal light control while maintaining the modern, professional look of the office space.
                 </p>
               </div>
               <div>

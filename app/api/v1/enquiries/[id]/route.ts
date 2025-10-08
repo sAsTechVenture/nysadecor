@@ -5,11 +5,12 @@ import { validateAdminAuth } from '@/utils/auth';
 // GET /api/v1/enquiries/[id] - Get single enquiry
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const enquiry = await prisma.enquiryForm.findUnique({
-      where: { id: params.id },
+      where: { id },
       include: {
         items: {
           include: {
@@ -39,14 +40,15 @@ export async function GET(
 // DELETE /api/v1/enquiries/[id] - Delete enquiry (service role only)
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // Check for admin authentication
     await validateAdminAuth();
 
+    const { id } = await params;
     const enquiry = await prisma.enquiryForm.findUnique({
-      where: { id: params.id },
+      where: { id },
     });
 
     if (!enquiry) {
@@ -57,7 +59,7 @@ export async function DELETE(
     }
 
     await prisma.enquiryForm.delete({
-      where: { id: params.id },
+      where: { id },
     });
 
     return NextResponse.json({ message: 'Enquiry deleted successfully' });

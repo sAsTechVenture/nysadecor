@@ -25,7 +25,6 @@ import {
 	AlertCircle,
 	CheckCircle,
 } from 'lucide-react';
-import { colors } from '@/config/theme';
 
 import { useAuth } from '@/hooks/useAuth';
 
@@ -102,7 +101,7 @@ export default function AdminLogin(): React.ReactElement {
 				<div
 					className="absolute inset-0"
 					style={{
-						backgroundImage: `radial-gradient(circle at 25% 25%, ${colors.primary} 2px, transparent 2px)`,
+						backgroundImage: `radial-gradient(circle at 25% 25%, #48468a 2px, transparent 2px)`,
 						backgroundSize: '50px 50px',
 					}}
 				></div>
@@ -114,21 +113,21 @@ export default function AdminLogin(): React.ReactElement {
 					<div
 						className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full"
 						style={{
-							backgroundColor: colors.primary,
+							backgroundColor: '#48468a',
 						}}
 					>
 						<Shield className="h-8 w-8 text-white" />
 					</div>
 					<h1
 						className="mb-2 text-3xl font-bold"
-						style={{ color: colors.textPrimary }}
+						style={{ color: '#1f2937' }}
 					>
 						Admin Portal
 					</h1>
 					<p
 						className="text-sm"
 						style={{
-							color: colors.textSecondary,
+							color: '#6b7280',
 						}}
 					>
 						Sign in to access the administration
@@ -140,14 +139,14 @@ export default function AdminLogin(): React.ReactElement {
 				<Card
 					className="border-0 shadow-lg"
 					style={{
-						backgroundColor: colors.white,
+						backgroundColor: '#ffffff',
 					}}
 				>
 					<CardHeader className="space-y-1 pb-6">
 						<CardTitle
 							className="text-center text-2xl font-semibold"
 							style={{
-								color: colors.textPrimary,
+								color: '#1f2937',
 							}}
 						>
 							Welcome Back
@@ -155,7 +154,7 @@ export default function AdminLogin(): React.ReactElement {
 						<CardDescription
 							className="text-center"
 							style={{
-								color: colors.textSecondary,
+								color: '#6b7280',
 							}}
 						>
 							Please enter your credentials to
@@ -178,14 +177,14 @@ export default function AdminLogin(): React.ReactElement {
 								{alert.type === 'error' && (
 									<AlertCircle
 										className="h-4 w-4"
-										style={{ color: colors.red }}
+										style={{ color: '#ef4444' }}
 									/>
 								)}
 								{alert.type === 'success' && (
 									<CheckCircle
 										className="h-4 w-4"
 										style={{
-											color: colors.green,
+											color: '#22c55e',
 										}}
 									/>
 								)}
@@ -193,10 +192,10 @@ export default function AdminLogin(): React.ReactElement {
 									style={{
 										color:
 											alert.type === 'error'
-												? colors.red
+												? '#ef4444'
 												: alert.type === 'success'
-													? colors.green
-													: colors.blue,
+													? '#22c55e'
+													: '#3b82f6',
 									}}
 								>
 									{alert.message}
@@ -211,7 +210,7 @@ export default function AdminLogin(): React.ReactElement {
 									htmlFor="email"
 									className="text-sm font-medium"
 									style={{
-										color: colors.textPrimary,
+										color: '#1f2937',
 									}}
 								>
 									Email Address
@@ -225,16 +224,16 @@ export default function AdminLogin(): React.ReactElement {
 									onChange={handleInputChange}
 									className="h-12 border-2 transition-colors duration-200"
 									style={{
-										borderColor: colors.border,
-										color: colors.textPrimary,
+										borderColor: '#e5e7eb',
+										color: '#1f2937',
 									}}
 									onFocus={e =>
 										(e.target.style.borderColor =
-											colors.primary)
+											'#48468a')
 									}
 									onBlur={e =>
 										(e.target.style.borderColor =
-											colors.border)
+											'#e5e7eb')
 									}
 									required
 								/>
@@ -246,7 +245,7 @@ export default function AdminLogin(): React.ReactElement {
 									htmlFor="password"
 									className="text-sm font-medium"
 									style={{
-										color: colors.textPrimary,
+										color: '#1f2937',
 									}}
 								>
 									Password
@@ -265,16 +264,16 @@ export default function AdminLogin(): React.ReactElement {
 										onChange={handleInputChange}
 										className="h-12 border-2 pr-12 transition-colors duration-200"
 										style={{
-											borderColor: colors.border,
-											color: colors.textPrimary,
+											borderColor: '#e5e7eb',
+											color: '#1f2937',
 										}}
 										onFocus={e =>
 											(e.target.style.borderColor =
-												colors.primary)
+												'#48468a')
 										}
 										onBlur={e =>
 											(e.target.style.borderColor =
-												colors.border)
+												'#e5e7eb')
 										}
 										required
 									/>
@@ -287,7 +286,7 @@ export default function AdminLogin(): React.ReactElement {
 										}
 										className="absolute top-1/2 right-3 -translate-y-1/2 transition-colors duration-200"
 										style={{
-											color: colors.textSecondary,
+											color: '#6b7280',
 										}}
 										onMouseEnter={(
 											e: MouseEvent<HTMLButtonElement>
@@ -295,7 +294,7 @@ export default function AdminLogin(): React.ReactElement {
 											(
 												e.target as HTMLButtonElement
 											).style.color =
-												colors.primary;
+												'#48468a';
 										}}
 										onMouseLeave={(
 											e: MouseEvent<HTMLButtonElement>
@@ -303,7 +302,7 @@ export default function AdminLogin(): React.ReactElement {
 											(
 												e.target as HTMLButtonElement
 											).style.color =
-												colors.textSecondary;
+												'#6b7280';
 										}}
 									>
 										{showPassword ? (
@@ -323,15 +322,15 @@ export default function AdminLogin(): React.ReactElement {
 										id="remember"
 										className="h-4 w-4 rounded border-2 transition-colors duration-200"
 										style={{
-											borderColor: colors.border,
-											accentColor: colors.primary,
+											borderColor: '#e5e7eb',
+											accentColor: '#48468a',
 										}}
 									/>
 									<Label
 										htmlFor="remember"
 										className="cursor-pointer text-sm"
 										style={{
-											color: colors.textSecondary,
+											color: '#6b7280',
 										}}
 									>
 										Remember me
@@ -341,7 +340,7 @@ export default function AdminLogin(): React.ReactElement {
 									href="#"
 									className="text-sm font-medium transition-colors duration-200"
 									style={{
-										color: colors.primary,
+										color: '#48468a',
 									}}
 									onMouseEnter={(
 										e: MouseEvent<HTMLAnchorElement>
@@ -349,7 +348,7 @@ export default function AdminLogin(): React.ReactElement {
 										(
 											e.target as HTMLAnchorElement
 										).style.color =
-											colors.textPrimary;
+											'#1f2937';
 									}}
 									onMouseLeave={(
 										e: MouseEvent<HTMLAnchorElement>
@@ -357,7 +356,7 @@ export default function AdminLogin(): React.ReactElement {
 										(
 											e.target as HTMLAnchorElement
 										).style.color =
-											colors.primary;
+											'#48468a';
 									}}
 								>
 									Forgot password?
@@ -371,8 +370,8 @@ export default function AdminLogin(): React.ReactElement {
 								disabled={isLoading}
 								className="h-12 w-full cursor-pointer font-semibold text-white transition-all duration-200 hover:shadow-lg disabled:opacity-50"
 								style={{
-									backgroundColor: colors.primary,
-									borderColor: colors.primary,
+									backgroundColor: '#48468a',
+									borderColor: '#48468a',
 								}}
 								onMouseEnter={e => {
 									if (!isLoading) {
@@ -387,7 +386,7 @@ export default function AdminLogin(): React.ReactElement {
 										(
 											e.target as HTMLButtonElement
 										).style.backgroundColor =
-											colors.primary;
+											'#48468a';
 									}
 								}}
 							>
@@ -411,7 +410,7 @@ export default function AdminLogin(): React.ReactElement {
 							<p
 								className="mb-2 text-xs font-medium"
 								style={{
-									color: colors.textSecondary,
+									color: '#6b7280',
 								}}
 							>
 								Demo Credentials:
@@ -419,7 +418,7 @@ export default function AdminLogin(): React.ReactElement {
 							<p
 								className="text-xs"
 								style={{
-									color: colors.textSecondary,
+									color: '#6b7280',
 								}}
 							>
 								Email: admin@example.com
@@ -427,7 +426,7 @@ export default function AdminLogin(): React.ReactElement {
 							<p
 								className="text-xs"
 								style={{
-									color: colors.textSecondary,
+									color: '#6b7280',
 								}}
 							>
 								Password: password
@@ -441,7 +440,7 @@ export default function AdminLogin(): React.ReactElement {
 					<p
 						className="text-xs"
 						style={{
-							color: colors.textSecondary,
+							color: '#6b7280',
 						}}
 					>
 						© 2025 Admin Portal. All rights

@@ -3,12 +3,8 @@
 import React from "react";
 import Image from "next/image";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { HeroSection, ProjectInMindSection } from "@/components/common";
 
-import Link from "next/link";
-import { ArrowRight } from "lucide-react";
 import { colors } from "@/config/theme";
 import { heroBadges, story, stats, values, certifications, cta } from "@/data/about";
 

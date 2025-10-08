@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { ProjectCard } from '@/components/projects';
 import { HeroSection, ProjectInMindSection } from '@/components/common';
-import { Filter, ChevronDown, X, ArrowRight } from 'lucide-react';
+import { Filter, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -63,7 +63,7 @@ export default function ProjectsPage() {
 
   useEffect(() => {
     fetchProjects(1, selectedCategory, searchTerm);
-  }, []);
+  }, [selectedCategory, searchTerm]);
 
   const handleCategoryChange = (category: string) => {
     setSelectedCategory(category);
@@ -71,11 +71,6 @@ export default function ProjectsPage() {
     fetchProjects(1, category, searchTerm);
   };
 
-  const handleSearch = (search: string) => {
-    setSearchTerm(search);
-    setCurrentPage(1);
-    fetchProjects(1, selectedCategory, search);
-  };
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
